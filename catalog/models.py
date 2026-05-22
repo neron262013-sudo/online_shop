@@ -31,14 +31,14 @@ class Product(models.Model):
     description = models.TextField(
         blank=True,
         null=True,
-        verbose_name='Описание товара',
+        verbose_name='Описание',
         help_text='Введите описание товара'
     )
     image = models.ImageField(
         upload_to='catalog/images/',
         blank=True,
         null=True,
-        verbose_name="Изображение товара",
+        verbose_name="Изображение",
         help_text="Загрузите изображение товара",
     )
     category = models.ForeignKey(
@@ -56,11 +56,13 @@ class Product(models.Model):
         verbose_name='Цена за покупку',
         help_text='Укажите цену за покупку товара',
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True
+    created_at = models.DateField(
+        auto_now_add=True,
+        verbose_name = 'Дата создания'
     )
-    updated_at = models.DateTimeField(
-        auto_now=True
+    updated_at = models.DateField(
+        auto_now=True,
+        verbose_name='Дата последнего изменения'
     )
 
     def __str__(self):
