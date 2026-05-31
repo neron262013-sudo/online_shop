@@ -1,0 +1,26 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Телевизоры",
+        "description": "Телевизор есть телевизор"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Рукомойники",
+        "description": "Для мытья рук"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "name": "Холодильники",
+        "description": "Для хранения продуктов и не только"
+    }
+}
+]

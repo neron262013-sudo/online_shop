@@ -1,0 +1,24 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name": "AquaWash 3000",
+        "description": "Удобный рукомойник",
+        "image": null,
+        "category": 2,
+        "price": "2500.00"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "name": "FrostMaster",
+        "description": "Большой холодильник",
+        "image": null,
+        "category": 3,
+        "price": "45000.00"
+    }
+}
+]
