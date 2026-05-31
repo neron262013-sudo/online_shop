@@ -1,9 +1,8 @@
 from django.contrib import admin
+from django.core.exceptions import ValidationError
+from PIL import Image
 
 from catalog.models import Category, Product
-
-from PIL import Image
-from django.core.exceptions import ValidationError
 
 
 # Register your models here.
