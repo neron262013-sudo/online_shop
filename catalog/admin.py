@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.core.exceptions import ValidationError
+from PIL import Image
 
 from catalog.models import Category, Product
 
@@ -12,6 +14,17 @@ class ProductAdmin(admin.ModelAdmin):
         "name",
         "description",
     )
+    fields = ("name", "description", "image", "category", "price")
+
+    def save_model(self, request, obj, form, change):
+        if obj.image:
+            try:
+                img = Image.open(obj.image)
+                img.verify()
+            except Exception:
+                raise ValidationError("Можно загружать только изображения")
+
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(Category)
