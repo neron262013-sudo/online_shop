@@ -1,10 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'blog_base.html' %}
+{% load my_tags %}
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-6">
             <form class="row" method="post" enctype="multipart/form-data">
                 <div class="card">
+                    <img src="{{ object.preview | media_filter }}">
                     <p class="card-text">Действительно хотите удалить {{ object.name }}</p>
                     <div class="card-body">
                         {% csrf_token %}
@@ -14,7 +16,7 @@
                     </button>
                     <a
                             class="btn btn-primary"
-                            href="{% url 'post:post_list' %}"
+                            href="{% url 'blog:post_list' %}"
                             role="button">Отменить
                     </a>
                 </div>
