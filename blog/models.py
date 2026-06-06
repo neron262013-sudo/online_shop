@@ -18,7 +18,7 @@ class Post(models.Model):
         verbose_name='Изображение',
         help_text='Изображение для поста'
     )
-    post_date = models.DateField(
+    posted_by = models.DateField(
         verbose_name='Дата публикации',
         help_text='Укажите дату публикации',
         default=date.today,
@@ -33,4 +33,3 @@ class Post(models.Model):
         help_text = "Укажите количество просмотров",
         default=0,
     )
-
