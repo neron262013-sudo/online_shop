@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'catalog_base.html' %}
 {% load my_tags %}
 {% block content %}
 
@@ -23,6 +23,12 @@
                         </a>
                         <a class="btn btn-primary" href="#">
                             Купить
+                        </a>
+                        <a class="btn btn-primary" href="{% url 'catalog:product_update' product.pk %}">
+                            Редактировать
+                        </a>
+                        <a class="btn btn-primary" href="{% url 'catalog:product_confirm_delete' product.pk %}">
+                            Удалить
                         </a>
                     </div>
                 </div>

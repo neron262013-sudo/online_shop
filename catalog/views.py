@@ -12,11 +12,11 @@ class ProductListView(ListView):
     context_object_name = "products"
 
 
-class productCreateView(CreateView):
+class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    template_name = "product_create.html"
-    success_url = reverse_lazy("products")
+    template_name = "product_form.html"
+    success_url = reverse_lazy("catalog:home")
 
 
 class ProductDetailView(DetailView):
@@ -28,16 +28,17 @@ class ProductDetailView(DetailView):
 class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
-    template_name = "product_update.html"
-    success_url = reverse_lazy("products")
+    template_name = "product_form.html"
+    success_url = reverse_lazy("catalog:home")
 
     def get_success_url(self):
-        return reverse('product_detail', args=[self.kwargs.get('pk')])
+        return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
 
 
 class ProductDeleteView(DeleteView):
     model = Product
     template_name = "product_confirm_delete.html"
+    success_url = reverse_lazy("catalog:home")
 
 
 class ContactsView(View):
