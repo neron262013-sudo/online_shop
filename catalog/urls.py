@@ -16,11 +16,11 @@ Including another URLconf
 """
 
 from django.urls import path
-from .views import ProductListView, ProductDetailView, ContactsView, ProductDeleteView, ProductUpdateView, ProductCreateView
 
 from catalog.apps import CatalogConfig
 
-from . import views
+from .views import (ContactsView, ProductCreateView, ProductDeleteView, ProductDetailView, ProductListView,
+                    ProductUpdateView)
 
 app_name = CatalogConfig.name
 
