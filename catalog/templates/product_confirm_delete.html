@@ -6,7 +6,11 @@
         <div class="col-6">
             <form class="row" method="post" enctype="multipart/form-data">
                 <div class="card">
-                    <img src="{{ object.preview | media_filter }}">
+                    <img src="{{ product.image|media_filter }}"
+                         class="card-img-top"
+                         style="height: 250px;
+                     object-fit: contain;
+                     background: #f8f8f8;">
                     <p class="card-text">Действительно хотите удалить {{ object.name }}</p>
                     <div class="card-body">
                         {% csrf_token %}

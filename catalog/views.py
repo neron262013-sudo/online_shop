@@ -11,6 +11,10 @@ class ProductListView(ListView):
     template_name = "home.html"
     context_object_name = "products"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(is_published=True)
+
 
 class ProductCreateView(CreateView):
     model = Product

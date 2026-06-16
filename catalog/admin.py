@@ -14,7 +14,7 @@ class ProductAdmin(admin.ModelAdmin):
         "name",
         "description",
     )
-    fields = ("name", "description", "image", "category", "price")
+    fields = ("name", "description", "image", "category", "price", "is_published")
 
     def save_model(self, request, obj, form, change):
         if obj.image:
