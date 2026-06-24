@@ -41,7 +41,8 @@ class Product(models.Model):
         verbose_name="Цена за покупку",
     )
     is_published = models.BooleanField(
-        default=False, verbose_name="Опубликован", help_text="Отметьте, если продукт опубликован")
+        default=False, verbose_name="Опубликован", help_text="Отметьте, если продукт опубликован"
+    )
     created_at = models.DateField(auto_now_add=True, verbose_name="Дата создания", null=True, blank=True)
     updated_at = models.DateField(auto_now=True, verbose_name="Дата последнего изменения", null=True, blank=True)
 
