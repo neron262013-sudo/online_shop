@@ -21,7 +21,9 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name="Наименование")
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
-    owner = models.ForeignKey(User, verbose_name="Владелец", related_name="products", on_delete=models.CASCADE, null=True, blank=True)
+    owner = models.ForeignKey(
+        User, verbose_name="Владелец", related_name="products", on_delete=models.CASCADE, null=True, blank=True
+    )
     image = models.ImageField(
         upload_to="catalog/images/",
         blank=True,
@@ -48,7 +50,6 @@ class Product(models.Model):
     )
     created_at = models.DateField(auto_now_add=True, verbose_name="Дата создания", null=True, blank=True)
     updated_at = models.DateField(auto_now=True, verbose_name="Дата последнего изменения", null=True, blank=True)
-
 
     def __str__(self):
         return self.name

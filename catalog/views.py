@@ -1,6 +1,6 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView, View
 
@@ -70,10 +70,7 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
         user = request.user
 
         is_owner = product.owner == user
-        is_moderator = (
-            user.has_perm("catalog.delete_product") and
-            user.has_perm("catalog.can_unpublish_product")
-        )
+        is_moderator = user.has_perm("catalog.delete_product") and user.has_perm("catalog.can_unpublish_product")
 
         if not (is_owner or is_moderator):
             raise PermissionDenied
