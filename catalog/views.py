@@ -1,5 +1,6 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView, View
 
@@ -40,10 +41,36 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         return reverse("catalog:product_detail", args=[self.kwargs.get("pk")])
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Product
     template_name = "product_confirm_delete.html"
     success_url = reverse_lazy("catalog:home")
+
+    permission_required = "catalog.delete_product"
+
+
+class ProductUnpublishView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        if not request.user.has_perm("catalog.can_unpublish_product"):
+            raise PermissionDenied
+
+        product = get_object_or_404(Product, pk=pk)
+        product.is_published = False
+        product.save()
+
+        return redirect("catalog:product_detail", pk=pk)
+
+
+class ProductPublishView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        if not request.user.has_perm("catalog.can_unpublish_product"):
+            raise PermissionDenied
+
+        product = get_object_or_404(Product, pk=pk)
+        product.is_published = True
+        product.save()
+
+        return redirect("catalog:product_detail", pk=pk)
 
 
 class ContactsView(View):

@@ -30,6 +30,23 @@
                         <a class="btn btn-primary" href="{% url 'catalog:product_confirm_delete' product.pk %}">
                             Удалить
                         </a>
+                        {% if product.is_published and perms.catalog.can_unpublish_product %}
+                        <form method="post" action="{% url 'catalog:product_unpublish' product.pk %}">
+                            {% csrf_token %}
+                            <button class="btn btn-primary">
+                                Снять с публикации
+                            </button>
+                        </form>
+                        {% endif %}
+                        {% if not product.is_published and perms.catalog.can_unpublish_product %}
+                        <form method="post" action="{% url 'catalog:product_publish' product.pk %}"
+                              style="display:inline;">
+                            {% csrf_token %}
+                            <button class="btn btn-primary">
+                                Опубликовать
+                            </button>
+                        </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>
