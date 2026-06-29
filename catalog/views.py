@@ -24,6 +24,13 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     template_name = "product_form.html"
     success_url = reverse_lazy("catalog:home")
 
+    def form_valid(self, form):
+        dog = form.save()
+        user = self.request.user
+        dog.owner = user
+        dog.save()
+        return super().form_valid(form)
+
 
 class ProductDetailView(DetailView):
     model = Product
@@ -40,13 +47,38 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse("catalog:product_detail", args=[self.kwargs.get("pk")])
 
+    def dispatch(self, request, *args, **kwargs):
+        product = self.get_object()
+        user = request.user
 
-class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+        is_owner = product.owner == user
+        is_moderator = user.has_perm("catalog.can_unpublish_product")
+
+        if not (is_owner or is_moderator):
+            raise PermissionDenied
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = "product_confirm_delete.html"
     success_url = reverse_lazy("catalog:home")
 
-    permission_required = "catalog.delete_product"
+    def dispatch(self, request, *args, **kwargs):
+        product = self.get_object()
+        user = request.user
+
+        is_owner = product.owner == user
+        is_moderator = (
+            user.has_perm("catalog.delete_product") and
+            user.has_perm("catalog.can_unpublish_product")
+        )
+
+        if not (is_owner or is_moderator):
+            raise PermissionDenied
+
+        return super().dispatch(request, *args, **kwargs)
 
 
 class ProductUnpublishView(LoginRequiredMixin, View):
