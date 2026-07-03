@@ -16,21 +16,23 @@ Including another URLconf
 """
 
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from catalog.apps import CatalogConfig
 
 from .views import (ContactsView, ProductCreateView, ProductDeleteView, ProductDetailView, ProductListView,
-                    ProductPublishView, ProductUnpublishView, ProductUpdateView)
+                    ProductPublishView, ProductUnpublishView, ProductUpdateView, CategoryProductListView)
 
 app_name = CatalogConfig.name
 
 urlpatterns = [
     path("home/", ProductListView.as_view(), name="home"),
     path("product_create/", ProductCreateView.as_view(), name="product_create"),
-    path("product_detail/<int:pk>/", ProductDetailView.as_view(), name="product_detail"),
+    path("product_detail/<int:pk>/", cache_page(60 * 15)(ProductDetailView.as_view()), name="product_detail"),
     path("product_update/<int:pk>/", ProductUpdateView.as_view(), name="product_update"),
     path("product_confirm_delete/<int:pk>/", ProductDeleteView.as_view(), name="product_confirm_delete"),
     path("contacts/", ContactsView.as_view(), name="contacts"),
     path("product/<int:pk>/unpublish/", ProductUnpublishView.as_view(), name="product_unpublish"),
     path("product/<int:pk>/publish/", ProductPublishView.as_view(), name="product_publish"),
+    path("category/<int:pk>/products/", CategoryProductListView.as_view(), name="category_products_list"),
 ]

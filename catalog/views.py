@@ -5,7 +5,8 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView, View
 
 from catalog.forms import ProductForm
-from catalog.models import Product
+from catalog.models import Product, Category
+from .services import get_products_from_cache
 
 
 class ProductListView(ListView):
@@ -25,10 +26,10 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("catalog:home")
 
     def form_valid(self, form):
-        dog = form.save()
+        product = form.save()
         user = self.request.user
-        dog.owner = user
-        dog.save()
+        product.owner = user
+        product.save()
         return super().form_valid(form)
 
 
@@ -105,3 +106,18 @@ class ProductPublishView(LoginRequiredMixin, View):
 class ContactsView(View):
     def get(self, request):
         return render(request, "contacts.html")
+
+
+class CategoryProductListView(ListView):
+    model = Product
+    template_name = "category_products.html"
+    context_object_name = "products"
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, pk=self.kwargs["pk"])
+        return get_products_from_cache(self.category)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category"] = self.category
+        return context
