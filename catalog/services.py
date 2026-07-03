@@ -9,11 +9,11 @@ def get_products_from_cache(category):
     if not CACHE_ENABLED:
        return Product.objects.filter(category=category)
 
-    key = f'products_category_{category.pk}'
+    key = f'category_{category.pk}'
     products = cache.get(key)
-    if products is not None:
-        return products
 
-    products = Product.objects.filter(category=category)
-    cache.set(key, products)
+    if products is None:
+        products = Product.objects.filter(category=category)
+        cache.set(key, products, 60 * 5)
+
     return products
