@@ -5,7 +5,8 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView, View
 
 from catalog.forms import ProductForm
-from catalog.models import Product, Category
+from catalog.models import Category, Product
+
 from .services import get_products_from_cache
 
 

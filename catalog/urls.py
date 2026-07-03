@@ -20,8 +20,8 @@ from django.views.decorators.cache import cache_page
 
 from catalog.apps import CatalogConfig
 
-from .views import (ContactsView, ProductCreateView, ProductDeleteView, ProductDetailView, ProductListView,
-                    ProductPublishView, ProductUnpublishView, ProductUpdateView, CategoryProductListView)
+from .views import (CategoryProductListView, ContactsView, ProductCreateView, ProductDeleteView, ProductDetailView,
+                    ProductListView, ProductPublishView, ProductUnpublishView, ProductUpdateView)
 
 app_name = CatalogConfig.name
 
