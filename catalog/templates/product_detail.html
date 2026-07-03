@@ -24,12 +24,33 @@
                         <a class="btn btn-primary" href="#">
                             Купить
                         </a>
+                        {% if user == product.owner or perms.catalog.can_unpublish_product %}
                         <a class="btn btn-primary" href="{% url 'catalog:product_update' product.pk %}">
                             Редактировать
                         </a>
-                        <a class="btn btn-primary" href="{% url 'catalog:product_confirm_delete' product.pk %}">
+                        {% endif %}
+                        {% if user == product.owner or perms.catalog.delete_product and perms.catalog.can_unpublish_product %}
+                        <a class="btn btn-danger" href="{% url 'catalog:product_confirm_delete' product.pk %}">
                             Удалить
                         </a>
+                        {% endif %}
+                        {% if product.is_published and perms.catalog.can_unpublish_product %}
+                        <form method="post" action="{% url 'catalog:product_unpublish' product.pk %}">
+                            {% csrf_token %}
+                            <button class="btn btn-primary">
+                                Снять с публикации
+                            </button>
+                        </form>
+                        {% endif %}
+                        {% if not product.is_published and perms.catalog.can_unpublish_product %}
+                        <form method="post" action="{% url 'catalog:product_publish' product.pk %}"
+                              style="display:inline;">
+                            {% csrf_token %}
+                            <button class="btn btn-primary">
+                                Опубликовать
+                            </button>
+                        </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 # Create your models here.
 class Category(models.Model):
@@ -19,6 +21,9 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name="Наименование")
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
+    owner = models.ForeignKey(
+        User, verbose_name="Владелец", related_name="products", on_delete=models.CASCADE, null=True, blank=True
+    )
     image = models.ImageField(
         upload_to="catalog/images/",
         blank=True,
@@ -52,3 +57,6 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
+        permissions = [
+            ("can_unpublish_product", "can_unpublish_product"),
+        ]
