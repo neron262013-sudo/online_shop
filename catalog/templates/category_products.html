@@ -1,0 +1,46 @@
+{% extends 'catalog_base.html' %}
+{% load my_tags %}
+{% block content %}
+
+<div class="container">
+    <h2 class="mb-4">
+        Категория: {{ category.name }}
+    </h2>
+    <div class="row text-center">
+        {% for product in products %}
+        <div class="col-3">
+            <div class="card shadow-sm">
+                <img src="{{ product.image|media_filter }}"
+                     class="card-img-top"
+                     style="height: 250px;
+                     object-fit: contain;
+                     background: #f8f8f8;">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <p>{{ product.description|truncatechars:100 }}</p>
+                    <div class="btn-group">
+                        <a
+                                class="btn btn-primary"
+                                href="{% url 'catalog:product_detail' product.pk %}"
+                                role="button">Посмотреть
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <h5>В этой категории пока нет продуктов.</h5>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mt-4">
+        <a class="btn btn-secondary" href="{% url 'catalog:home' %}">
+            Назад
+        </a>
+    </div>
+</div>
+
+{% endblock %}
